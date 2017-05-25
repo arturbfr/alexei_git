@@ -5,11 +5,6 @@ library(SAScii)
 ## Controle --------------------------------------------------------------------
 # Variáveis desejadas
 var <- c("ANO", "UF", "V1014", "V1008", "V1027")
-# var <- "ALL"
-# Número de observações para ler (TESTE)
-n_max <- 100
-# Nome do arquivo de microdados
-name <- "PNADC_012012.txt"
 ## -----------------------------------------------------------------------------
 
 # Identifica o arquivo .zip de input
@@ -68,13 +63,14 @@ if(var == "ALL"){
   var <- dict$VARNAME
 }
 
-# Criando lista de labels
+# Criando list com as posições das variáveis no arquivo de labels
 labels_pos <- labels_raw[,3] %>% trimws %>%  as.character %>% 
   toupper %>% match(var, .)
 labels_names <- labels_raw[labels_pos, 5] %>% as.character
 labels_names[is.na(labels_names)] <- "---"
 # labels_title <- paste(var, labels_names, sep = ": ")
 
+# Criando a lista de labels
 labels <- list()
 
 for(k in 1:length(labels_pos)){

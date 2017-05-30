@@ -1,10 +1,19 @@
-library(magrittr)
+## LEITURA DE LABELS
+# Versão de teste. Estado atual:
+# -- Cria lista de labels da parte 1 (2012Q1 a 2015Q3)
+
+## PACOTES
+# Leitura de arquivos de Excel
 library(rio)
+# Pacote disponibiliza o operador "pipe" (%>%)
+library(magrittr)
+# Permite leitura de arquivos .sas
 library(SAScii)
 
 ## Controle --------------------------------------------------------------------
 # Variáveis desejadas
-var <- c("ANO", "UF", "V1014", "V1008", "V1027")
+# var <- c("ANO", "UF", "V1014", "V1008", "V1027")
+var <- "ALL"
 ## -----------------------------------------------------------------------------
 
 # Identifica o arquivo .zip de input

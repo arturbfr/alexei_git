@@ -1,26 +1,31 @@
-
-# library(foreign)
-# library(stringr)
-library(readr)
-library(magrittr)
-library(SAScii)
-
+## PARTE 1: Trata das pesquisas de 2012Q1 até 2015Q3
 ## Versão de teste. Estado atual:
 # -- Lê dicionário 1tri2012 até 3tri2015
 # -- Lê arquivo PNADC_012012
 # -- Lê arquivo PNADC_022012
 # -- Lê arquivo PNADC_032012
 # -- Lê arquivo PNADC_042012
+## SUPONDO ARQUIVOS .zip NO WORKING DIRECTORY
 
-## Supondo arquivos no working directory
+## PACOTES
+# Leitura de "fixed width files" muito mais rapida que função base
+library(readr)
+# Pacote disponibiliza o operador "pipe" (%>%)
+library(magrittr)
+# Permite leitura de arquivos .sas
+library(SAScii)
+
 
 ## Controle --------------------------------------------------------------------
-# Variáveis desejadas
+# Variáveis desejadas (definir como "ALL" para ler todas)
 # var <- c("ANO", "UF", "V1014", "V1008", "V1027")
 var <- "ALL"
-# Número de observações para ler (TESTE)
+
+# Número de observações para ler ('Inf' para ler todas)
 n_max <- 100
+
 # Nome do arquivo de microdados
+# ESSE ARQUIVO TEM QUE SER EXTRAÍDO (por enquanto)
 name <- "PNADC_012012.txt"
 ## -----------------------------------------------------------------------------
 
@@ -34,8 +39,7 @@ file <- unzip(zip, list = TRUE)$Name %>%
   grep("Input.*1Tri\\_2012.*\\.sas", ., value = TRUE)
 
 # Extrai o arquivo
-# unzip(zip, file)
-unzip(zip)
+unzip(zip, file)
 
 # Lendo arquivo no formato .sas
 dict_temp <- parse.SAScii(file)

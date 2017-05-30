@@ -1,37 +1,42 @@
-
-# library(foreign)
-# library(stringr)
-library(readr)
-library(magrittr)
-library(SAScii)
-
+## PARTE 3: Trata das pesquisas de 2016Q2 até 2016Q4
 ## Versão de teste. Estado atual:
 # -- Lê dicionário 2tri2016 até 4tri2016
-# -- Lê arquivo PNADC_012016
+# -- Lê arquivo PNADC_022016
+## SUPONDO ARQUIVOS .zip NO WORKING DIRECTORY
 
-## Supondo arquivos no working directory
+## PACOTES
+# Leitura de "fixed width files" muito mais rapida que função base
+library(readr)
+# Pacote disponibiliza o operador "pipe" (%>%)
+library(magrittr)
+# Permite leitura de arquivos .sas
+library(SAScii)
+
 
 ## Controle --------------------------------------------------------------------
-# Variáveis desejadas
+# Variáveis desejadas (definir como "ALL" para ler todas)
 # var <- c("ANO", "UF", "V1014", "V1008", "V1027")
 var <- "ALL"
-# Número de observações para ler (TESTE)
+
+# Número de observações para ler ('Inf' para ler todas)
 n_max <- 100
+
 # Nome do arquivo de microdados
-name1 <- "PNADC_022016.txt"
+# ESSE ARQUIVO TEM QUE SER EXTRAÍDO (por enquanto)
+name <- "PNADC_022016.txt"
 ## -----------------------------------------------------------------------------
 
 
 # Identifica o arquivo .zip de input
 zip <- list.files() %>%
-  grep("input.*\\.zip", ., value = TRUE )
+  grep("Dicionario\\_e\\_input.*\\.zip", ., value = TRUE )
 
 # Identifica o arquivo a ser extraído
 file <- unzip(zip, list = TRUE)$Name %>%
   grep("Input.*2Tri\\_2016.*\\.sas", ., value = TRUE)
 
 # Extrai o arquivo
-# unzip(zip, file)
+unzip(zip, file)
 
 # Lendo arquivo no formato .sas
 dict_temp <- parse.SAScii(file)
@@ -68,7 +73,7 @@ if(var != "ALL"){
 type <- paste(rep('d', nrow(dict)), collapse = '')
 col_pos <- fwf_positions(dict$START, dict$END, col_names = dict$VARNAME)
 
-dados1 <- read_fwf(name1, col_pos, col_types = type, n_max = n_max)
+dados <- read_fwf(name, col_pos, col_types = type, n_max = n_max)
 
 
 
